@@ -1,14 +1,18 @@
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash");
+
 
 const app = express();
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://naveen:nani9963@cluster0.r1wiuvo.mongodb.net/todolistDB", {
+const mongoUri = process.env.MONGODB_URI;
+
+mongoose.connect(mongoUri, {
   useNewUrlParser: true,
 }).then( () => {
   console.log("Database Connected");
