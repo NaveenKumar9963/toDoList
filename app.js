@@ -8,8 +8,10 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/todolistDB", {
+mongoose.connect("mongodb+srv://naveen:nani9963@cluster0.r1wiuvo.mongodb.net/todolistDB", {
   useNewUrlParser: true,
+}).then( () => {
+  console.log("Database Connected");
 });
 
 const itemSchema = new mongoose.Schema({
@@ -45,8 +47,9 @@ app.get("/", (req, res) => {
     if (foundItems.length === 0) {
       Item.insertMany(itemArray).then(() => {
         console.log("Data Saved");
+        res.redirect("/");
       });
-      res.redirect("/");
+      
     } else {
       res.render("list", { ListTitle: "Today", Lists: foundItems });
     }
